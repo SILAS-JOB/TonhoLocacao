@@ -3,3 +3,6 @@
 appsettings.Development.json
 appsettings.json
 
+#bin
+bin/
+obj/
