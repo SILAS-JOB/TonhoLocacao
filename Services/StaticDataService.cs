@@ -1,5 +1,6 @@
 using TonhoLocacao.Models;
-
+using System.Linq;
+using System.Collections.Generic;
 
 namespace TonhoLocacao.Services
 {
@@ -15,7 +16,7 @@ namespace TonhoLocacao.Services
 
         public List<Products> GetServicesByCategory(string category)
         {
-            return _allproducts.Where(s => s.Category.Equals(category, System.StringComparison.OrdinalIgnoreCase)).ToList();
+            return [.. _allproducts.Where(s => s.Category.Equals(category, System.StringComparison.OrdinalIgnoreCase))];
         }
         // public List<Products> GetProductsById(int id)
         // {
