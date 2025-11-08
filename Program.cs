@@ -1,12 +1,16 @@
 using ChicasEventos.Models;
 using TonhoLocacao.Models;
 using TonhoLocacao.Services;
+using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddTransient<PdfService>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+QuestPDF.Settings.License = LicenseType.Community;
+
 
 var app = builder.Build();
 
