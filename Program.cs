@@ -14,7 +14,7 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Emai
 
 
 builder.Services.AddDbContext<UserDbContext>(options => 
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConenction")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
 var app = builder.Build();
