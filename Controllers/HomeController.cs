@@ -10,10 +10,8 @@ namespace TonhoLocacao.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly PdfService _pdfService;
-    public HomeController(PdfService pdfService)
+    public HomeController()
     {
-        _pdfService = pdfService;
     }
     public IActionResult Index()
     {
@@ -25,11 +23,6 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult StartPdfService()
-    {
-        byte[] pdfData = _pdfService.GeneratePdf();
-        return File(pdfData, "application/pdf", "Seu_Orçamento.pdf");
-    } 
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
