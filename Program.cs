@@ -1,18 +1,27 @@
 using ChicasEventos.Models;
 using TonhoLocacao.Models;
 using TonhoLocacao.Services;
-using QuestPDF.Infrastructure;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddTransient<PdfService>();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
-QuestPDF.Settings.License = LicenseType.Community;
+
+
+builder.Services.AddDbContext<UserDbContext>(options => 
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConenction")));
 
 
 var app = builder.Build();
+
+var configuration = builder.Configuration;
+
+Console.WriteLine(configuration["ConnectionString:DefaultConnection"]);
 
 if (!app.Environment.IsDevelopment())
 {
@@ -24,7 +33,6 @@ if (!app.Environment.IsDevelopment())
 app.UseRouting();
 app.UseStaticFiles();
 app.UseAuthorization();
-
 app.MapStaticAssets();
 
 app.MapControllerRoute(
