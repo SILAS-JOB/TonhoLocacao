@@ -3,7 +3,7 @@ using TonhoLocacao.Models;
 using TonhoLocacao.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +11,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddSingleton<UserDbContext>();
 
+
+builder.Services.AddMvc();
+
+builder.Services.AddSwaggerGen( options =>
+{
+   options.SwaggerDoc("v1", new OpenApiInfo { Title = "Crud Api", Version = "v1"}); 
+});
 
 builder.Services.AddDbContext<UserDbContext>(options => 
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -32,6 +40,12 @@ if (!app.Environment.IsDevelopment())
 // app.UseHttpsRedirection();
 app.UseRouting();
 app.UseStaticFiles();
+app.MapSwagger();
+app.UseSwagger();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("v1/swagger.json", "Api V1");
+});
 app.UseAuthorization();
 app.MapStaticAssets();
 
