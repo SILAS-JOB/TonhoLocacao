@@ -7,6 +7,9 @@ using MercadoPago.Resource.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Npgsql.Internal;
+using TonhoLocacao.DTO.Account;
+using TonhoLocacao.Models;
 
 namespace TonhoLocacao.Controllers
 {
@@ -21,11 +24,23 @@ namespace TonhoLocacao.Controllers
             _userManager = userManager;
         }
 
-        // public async Task<IActionResult> Register()
-        // {
-            
+        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto) 
+        {
+            var user = new ApplicationUser
+            {
+                UserName = registerDto.Name,
+                Email = registerDto.Email,
+            };
 
-        // }
+            var result = await _userManager.CreateAsync(user, registerDto.Password);
+
+            if(result.Succeeded)
+            {
+                return Ok(new {message = "Usuário cadastrado com sucesso ! "});
+            }
+
+            return BadRequest(result.Errors);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
