@@ -5,8 +5,11 @@ namespace TonhoLocacao.DTO.Account;
 public class RegisterDto
 {
     [Required(ErrorMessage = "Nome é obrigatório")]
-    [EmailAddress(ErrorMessage = "Email Inválido")]
     public required string Name { get; set; }
+
+    [Required(ErrorMessage = "Email é obrigatório ")]
+    [EmailAddress(ErrorMessage = "Email Inválido")]
+    public required string Email { get; set; }
 
     [Required(ErrorMessage = "Senha é obrigatória")]
     [MinLength(8, ErrorMessage = "A senha deve ter no mínimo 8 caracteres")]
