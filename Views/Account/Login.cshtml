@@ -1,0 +1,45 @@
+@{
+    <link rel="stylesheet" href="/css/login.css" />
+}
+
+
+
+<body>
+<div class="login-card">
+    <div class="header">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #4f46e5; margin-bottom: 1rem;">
+            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h1>Bem-vindo de volta</h1>
+        <p>Insira suas credenciais para acessar o painel.</p>
+    </div>
+
+    <form>
+        <div class="form-group">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" placeholder="nome@empresa.com" value="cliente@exemplo.com">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Senha</label>
+            <input type="password" id="password" placeholder="••••••••">
+        </div>
+
+        <div class="options">
+            <label class="remember-me">
+                <input type="checkbox"> Lembrar de mim
+            </label>
+            <a href="#" class="forgot-password">Esqueceu a senha?</a>
+        </div>
+
+        <button type="button" class="btn-login">Entrar no Sistema</button>
+    </form>
+
+    <div class="footer">
+        Ainda não tem conta? <a href="#">Cadastre-se</a>
+    </div>
+</div>
+
+</body>
