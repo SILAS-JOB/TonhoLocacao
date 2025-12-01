@@ -17,26 +17,32 @@ builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-.AddJwtBearer(jwtOptions =>
-{   if(Environments.Development == "Development")
-        jwtOptions.Authority = "https://";
-});
 
-var requireAuthPolicy = new AuthorizationPolicyBuilder()
-    .RequireAuthenticatedUser()
-    .Build();
 
-builder.Services.AddAuthorizationBuilder()
-    .SetFallbackPolicy(requireAuthPolicy);
+// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+// .AddJwtBearer(jwtOptions =>
+// {
+//     var authority = builder.Configuration["Jwt:Authority"];
+//     if (!string.IsNullOrEmpty(authority))
+//     {
+//         jwtOptions.Authority = authority;
+//     }
+// });
+
+// var requireAuthPolicy = new AuthorizationPolicyBuilder()
+//     .RequireAuthenticatedUser()
+//     .Build();
+
+// builder.Services.AddAuthorizationBuilder()
+//     .SetFallbackPolicy(requireAuthPolicy);
 
 
 builder.Services.AddMvc();
 
-builder.Services.AddSwaggerGen( options =>
-{
-   options.SwaggerDoc("v1", new OpenApiInfo { Title = "Crud Api", Version = "v1"}); 
-});
+// builder.Services.AddSwaggerGen( options =>
+// {
+//    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Crud Api", Version = "v1"}); 
+// });
 
 builder.Services.AddDbContext<UserDbContext>(options => 
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -57,12 +63,14 @@ if (!app.Environment.IsDevelopment())
 // app.UseHttpsRedirection();
 app.UseRouting();
 app.UseStaticFiles();
-app.MapSwagger();
-app.UseSwagger();
-app.UseSwaggerUI(options =>
-{
-    options.SwaggerEndpoint("v1/swagger.json", "Api V1");
-});
+// app.MapSwagger();
+// app.UseSwagger();
+// app.UseSwaggerUI(options =>
+// {
+//     options.SwaggerEndpoint("v1/swagger.json", "Api V1");
+// });
+
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapStaticAssets();
 
