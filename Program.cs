@@ -4,6 +4,10 @@ using TonhoLocacao.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +15,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(jwtOptions =>
+{   if(Environments.Development == "Development")
+        jwtOptions.Authority = "https://";
+});
+
+var requireAuthPolicy = new AuthorizationPolicyBuilder()
+    .RequireAuthenticatedUser()
+    .Build();
+
+builder.Services.AddAuthorizationBuilder()
+    .SetFallbackPolicy(requireAuthPolicy);
 
 
 builder.Services.AddMvc();
@@ -28,7 +46,7 @@ var app = builder.Build();
 
 var configuration = builder.Configuration;
 
-Console.WriteLine(configuration["ConnectionString:DefaultConnection"]);
+// Console.WriteLine(configuration["ConnectionString:DefaultConnection"]);
 
 if (!app.Environment.IsDevelopment())
 {
